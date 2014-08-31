@@ -79,21 +79,21 @@ MDPVersion::MDPVersion()
             struct msmfb_metadata metadata;
             memset(&metadata, 0 , sizeof(metadata));
             metadata.op = metadata_op_get_caps;
-            if (ioctl(fb_fd, MSMFB_METADATA_GET, &metadata) == -1) {
-                ALOGE("Error retrieving MDP revision and pipes info");
-                mdp_version = MDP_V_UNKNOWN;
-            } else {
-                mMdpRev = metadata.data.caps.mdp_rev;
-                mRGBPipes = metadata.data.caps.rgb_pipes;
-                mVGPipes = metadata.data.caps.vig_pipes;
-                mDMAPipes = metadata.data.caps.dma_pipes;
+//            if (ioctl(fb_fd, MSMFB_METADATA_GET, &metadata) == -1) {
+//                ALOGE("Error retrieving MDP revision and pipes info");
+                mdp_version = MDSS_V5;
+//            } else {
+                mMdpRev = 304;
+                mRGBPipes = 0;
+                mVGPipes = 0;
+                mDMAPipes = 1;
                 mFeatures = metadata.data.caps.features;
                 mSMPTotalCount = metadata.data.caps.max_smp_cnt;
                 mSMPLimitPerPipe = metadata.data.caps.smp_per_pipe;
                 if (metadata.data.caps.mdp_rev == MDP_V3_0_4){
                     mdp_version = MDP_V3_0_4;
                 }
-            }
+//            }
 #endif
         } else {
             mdp_version = MDP_V_UNKNOWN;
