@@ -1,19 +1,19 @@
 #Common headers
-common_includes := hardware/qcom/display/libgralloc
-common_includes += hardware/qcom/display/liboverlay
-common_includes += hardware/qcom/display/libcopybit
-common_includes += hardware/qcom/display/libqdutils
-common_includes += hardware/qcom/display/libhwcomposer
-common_includes += hardware/qcom/display/libexternal
-common_includes += hardware/qcom/display/libqservice
-common_includes += hardware/qcom/display/libvirtual
+common_includes := hardware/qcom/display-caf/libgralloc
+common_includes += hardware/qcom/display-caf/liboverlay
+common_includes += hardware/qcom/display-caf/libcopybit
+common_includes += hardware/qcom/display-caf/libqdutils
+common_includes += hardware/qcom/display-caf/libhwcomposer
+common_includes += hardware/qcom/display-caf/libexternal
+common_includes += hardware/qcom/display-caf/libqservice
+common_includes += hardware/qcom/display-caf/libvirtual
 
 ifeq ($(TARGET_USES_POST_PROCESSING),true)
     common_flags     += -DUSES_POST_PROCESSING
     common_includes  += $(TARGET_OUT_HEADERS)/pp/inc
 endif
 
-common_header_export_path := qcom/display
+common_header_export_path := qcom/display-caf
 
 #Common libraries external to display HAL
 common_libs := liblog libutils libcutils libhardware
@@ -30,13 +30,12 @@ ifeq ($(ARCH_ARM_HAVE_NEON),true)
     common_flags += -D__ARM_HAVE_NEON
 endif
 
-ifeq ($(call is-board-platform-in-list, msm8974 msm8226 msm8610 apq8084 \
-        mpq8092), true)
+ifneq ($(filter msm8974 msm8226 msm8610 apq8084 mpq8092,$(TARGET_BOARD_PLATFORM)),)
     common_flags += -DVENUS_COLOR_FORMAT
     common_flags += -DMDSS_TARGET
 endif
 
-ifeq ($(call is-board-platform-in-list, mpq8092), true)
+ifneq ($(filter mpq8092,$(TARGET_BOARD_PLATFORM)),)
     #XXX: Replace with check from MDP when available
     common_flags += -DVPU_TARGET
 endif
